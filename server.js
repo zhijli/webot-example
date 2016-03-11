@@ -1,24 +1,31 @@
-﻿'use strict';
+﻿var http = require('http');
+var xmlBodyParser = require('express-xml-parser');
+var Wechat = require('nodejs-wechat');
 
-var express = require('express');
-var Weixin = require('weixin-apis');
-var app = express();
-
-// 配置参数
-var weixin = new Weixin({
-    app: app,
-    appid: '你的appid（可选）',
-    appsecret: '你的secret（可选）',
-    token: 'CSHToolsTeam'
+var opt = {
+    token: 'CSHToolsTeam',
+    url: '/'
+};
+var parse = xmlBodyParser({
+    type: 'text/xml'
 });
-
-weixin.on('textMsg', function (data) {
-    var msg = {
-        toUserName: data.fromUserName,
-        fromUserName: data.toUserName,
-        msgType: 'text',
-        content: data.content
-    };
+var wechat = new Wechat(opt);
+wechat.on('event.subscribe', function (session) {
+    session.replyTextMessage('欢迎您关注我们的订阅号');
 });
-
-app.listen(80);
+var server = http.createServer(function (req, res) {
+    if (req.method === 'GET') {
+        req.query = require('url').parse(req.url, true).query;
+        wechat.verifyRequest(req, res);
+    } else {
+        parse(req, res, function (err) {
+            if (err) {
+                res.end();
+                return;
+            }
+            req.query = require('url').parse(req.url, true).query;
+            wechat.handleRequest(req, res);
+        });
+    }
+});
+server.listen(80);
