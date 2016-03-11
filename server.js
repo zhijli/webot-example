@@ -21,4 +21,4 @@ weixin.on('textMsg', function (data) {
     };
 });
 
-app.listen(8888);
+app.listen(80);
