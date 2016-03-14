@@ -1,6 +1,7 @@
 ﻿var http = require('http');
 var xmlBodyParser = require('express-xml-parser');
 var Wechat = require('nodejs-wechat');
+var port = process.env.port || 1337;
 
 var opt = {
     token: 'CSHToolsTeam',
@@ -33,5 +34,5 @@ var server = http.createServer(function (req, res) {
         });
     }
 });
-server.listen(80);
+server.listen(port);
 console.log('Server is running...');

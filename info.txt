@@ -1,0 +1,4 @@
+WeChatPoc
+http://wechatpoc.azurewebsites.net
+https://zhijli@wechatpoc.scm.azurewebsites.net:443/WeChatPoc.git
+ftp://waws-prod-hk1-003.ftp.azurewebsites.windows.net
