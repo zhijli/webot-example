@@ -13,10 +13,12 @@ var wechat = new Wechat(opt);
 wechat.on('event.subscribe', function (session) {
     session.replyTextMessage('欢迎您关注我们的订阅号');
 });
+
+console.log('starting server');
 var server = http.createServer(function (req, res) {
     req.query = require('url').parse(req.url, true).query;
     if (req.method === 'GET') {
-        
+
         wechat.verifyRequest(req, res);
     } else {
         parse(req, res, function (err) {
@@ -29,4 +31,5 @@ var server = http.createServer(function (req, res) {
         });
     }
 });
-server.listen(80);
+server.listen(8080);
+console.log('Server is running...');
