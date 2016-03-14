@@ -14,8 +14,9 @@ wechat.on('event.subscribe', function (session) {
     session.replyTextMessage('欢迎您关注我们的订阅号');
 });
 var server = http.createServer(function (req, res) {
+    req.query = require('url').parse(req.url, true).query;
     if (req.method === 'GET') {
-        req.query = require('url').parse(req.url, true).query;
+        
         wechat.verifyRequest(req, res);
     } else {
         parse(req, res, function (err) {
