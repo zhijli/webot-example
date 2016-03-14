@@ -17,6 +17,7 @@ wechat.on('event.subscribe', function (session) {
 console.log('starting server');
 var server = http.createServer(function (req, res) {
     req.query = require('url').parse(req.url, true).query;
+    console.log("===req:===", req)
     if (req.method === 'GET') {
 
         wechat.verifyRequest(req, res);
@@ -31,5 +32,5 @@ var server = http.createServer(function (req, res) {
         });
     }
 });
-server.listen(8080);
+server.listen(80);
 console.log('Server is running...');
