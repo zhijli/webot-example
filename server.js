@@ -14,8 +14,9 @@ wechat.on('event.subscribe', function (session) {
     session.replyTextMessage('欢迎您关注我们的订阅号');
 });
 
-console.log('starting server');
+console.log('starting server...');
 var server = http.createServer(function (req, res) {
+    console.log('in server');
     req.query = require('url').parse(req.url, true).query;
     console.log("===req:===", req)
     if (req.method === 'GET') {
