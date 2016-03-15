@@ -26,4 +26,13 @@ weixin.on('textMsg', function (data) {
     console.log("===msg===", msg);
 });
 
+weixin.getAccessToken(function (data) {
+    console.log(data);
+});
+
+weixin.on('allMsg', function (data) {
+    console.log('allMsg');
+    console.log(data);
+});
+
 app.listen(port);
