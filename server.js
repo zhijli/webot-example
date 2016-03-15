@@ -26,9 +26,19 @@ weixin.textMsg(function (msg) {
 
     var resMsg = {};
 
-    
     switch (msg.content) {
-        case "text":
+        case "你好":
+            // 返回文本消息
+            resMsg = {
+                fromUserName: msg.toUserName,
+                toUserName: msg.fromUserName,
+                msgType: "text",
+                content: "你好 有什么可以帮您？",
+                funcFlag: 0
+            };
+            break;
+
+        case "文本":
             // 返回文本消息
             resMsg = {
                 fromUserName: msg.toUserName,
@@ -39,7 +49,7 @@ weixin.textMsg(function (msg) {
             };
             break;
 
-        case "music":
+        case "音乐":
             // 返回音乐消息
             resMsg = {
                 fromUserName: msg.toUserName,
@@ -53,7 +63,7 @@ weixin.textMsg(function (msg) {
             };
             break;
 
-        case "image":
+        case "图文":
 
             var articles = [];
             articles[0] = {
