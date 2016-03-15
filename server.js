@@ -18,7 +18,7 @@ app.use('/weixin', xmlBodyParser({
 }));
 
 */
-
+var Wechat = require('nodejs-wechat');
 var opt = {
     token: 'CSHToolsTeam',
     url: '/'
