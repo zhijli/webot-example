@@ -1,6 +1,6 @@
 ﻿var port = process.env.port || 80;
 
-var mp = require('wechat-mp')(process.env.WX_TOKEN)
+var mp = require('wechat-mp')("CSHToolsTeam")
 var app = require('express')()
 
 app.use('/', mp.start())
