@@ -1,5 +1,5 @@
 ﻿
-var port = process.env.port || 1337;
+var port = process.env.port || 80;
 
 var weixin = require('weixin-api');
 var express = require('express');
@@ -26,8 +26,9 @@ weixin.textMsg(function (msg) {
 
     var resMsg = {};
 
+    
     switch (msg.content) {
-        case "文本":
+        case "text":
             // 返回文本消息
             resMsg = {
                 fromUserName: msg.toUserName,
@@ -38,7 +39,7 @@ weixin.textMsg(function (msg) {
             };
             break;
 
-        case "音乐":
+        case "music":
             // 返回音乐消息
             resMsg = {
                 fromUserName: msg.toUserName,
@@ -52,7 +53,7 @@ weixin.textMsg(function (msg) {
             };
             break;
 
-        case "图文":
+        case "image":
 
             var articles = [];
             articles[0] = {
