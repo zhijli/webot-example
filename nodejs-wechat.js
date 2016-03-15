@@ -35,4 +35,4 @@ var server = http.createServer(function (req, res) {
     }
 });
 server.listen(port);
-console.log('Server is running...');
+console.log('Server is running at port', port);

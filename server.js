@@ -1,38 +1,57 @@
-﻿var http = require('http');
-var xmlBodyParser = require('express-xml-parser');
-var Wechat = require('nodejs-wechat');
+﻿
 var port = process.env.port || 1337;
+
+var express = require('express');
+var app = express();
+var middlewares = require('express-middlewares-js');
+app.use('/', middlewares.xmlBodyParser({
+    type: 'text/xml'
+}));
+
+/*
+  Alternative way
+
+var xmlBodyParser = require('express-xml-parser');
+app.use('/weixin', xmlBodyParser({
+  type: 'text/xml',
+  limit: '1mb'
+}));
+
+*/
 
 var opt = {
     token: 'CSHToolsTeam',
     url: '/'
 };
-var parse = xmlBodyParser({
-    type: 'text/xml'
-});
+
 var wechat = new Wechat(opt);
-wechat.on('event.subscribe', function (session) {
-    session.replyTextMessage('欢迎您关注我们的订阅号');
+
+app.get('/', wechat.verifyRequest.bind(wechat));
+app.post('/', wechat.handleRequest.bind(wechat));
+
+// you can also work with other restful routes
+app.use('/api', middlewares.bodyParser());
+
+wechat.on('text', function (session) {
+    session.replyTextMessage('Hello World');
+});
+wechat.on('image', function (session) {
+    session.replyNewsMessage([{
+        Title: '新鲜事',
+        Description: '点击查看今天的新鲜事',
+        PicUrl: 'http://..',
+        Url: 'http://..'
+    }]);
+});
+wechat.on('voice', function (session) {
+    session.replyMessage({
+        Title: 'This is Music',
+        MsgType: 'music',
+        Description: 'Listen to this music and guess ths singer',
+        MusicUrl: 'http://..',
+        HQMusicUrl: 'http://..',
+        ThumbMediaId: '..'
+    });
 });
 
-console.log('starting server...');
-var server = http.createServer(function (req, res) {
-    console.log('in server');
-    req.query = require('url').parse(req.url, true).query;
-    console.log("===req:===", req)
-    if (req.method === 'GET') {
-
-        wechat.verifyRequest(req, res);
-    } else {
-        parse(req, res, function (err) {
-            if (err) {
-                res.end();
-                return;
-            }
-            req.query = require('url').parse(req.url, true).query;
-            wechat.handleRequest(req, res);
-        });
-    }
-});
-server.listen(port);
-console.log('Server is running at port', port);
+app.listen(port);
