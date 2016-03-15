@@ -38,6 +38,39 @@ weixin.textMsg(function (msg) {
             };
             break;
 
+        case "我想取消我们微软云订阅":
+            // 返回文本消息
+            resMsg = {
+                fromUserName: msg.toUserName,
+                toUserName: msg.fromUserName,
+                msgType: "text",
+                content: "可以，请问订阅号是？",
+                funcFlag: 0
+            };
+            break;
+
+        case "12345-12345-12345-12345":
+            // 返回文本消息
+            resMsg = {
+                fromUserName: msg.toUserName,
+                toUserName: msg.fromUserName,
+                msgType: "text",
+                content: "好的，已经成功取消。退款以打入您的关联账户，请查收",
+                funcFlag: 0
+            };
+            break;
+
+        case "谢谢":
+            // 返回文本消息
+            resMsg = {
+                fromUserName: msg.toUserName,
+                toUserName: msg.fromUserName,
+                msgType: "text",
+                content: "欢迎您再次使用我们的服务。",
+                funcFlag: 0
+            };
+            break;
+
         case "文本":
             // 返回文本消息
             resMsg = {
