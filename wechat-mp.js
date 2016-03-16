@@ -1,8 +1,8 @@
 var mp = require('wechat-mp')(process.env.WX_TOKEN)
 var app = require('express')()
 
-app.use('/wechat', mp.start())
-app.post('/wechat', function (req, res, next) {
+app.use('/', mp.start())
+app.post('/', function (req, res, next) {
 
     console.log(req.body)
 
