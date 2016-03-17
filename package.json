@@ -1,14 +1,10 @@
 {
-  "name": "WeChatDemo",
-  "version": "1.0.0",
-  "dependencies": {
-    "express": "4.x",
-    "express-middlewares-js": "^1.0.3",
-    "express-xml-parser": "^1.0.0",
-    "nodejs-wechat": "0.0.8",
-    "url": "^0.11.0",
-    "wechat-mp": "^0.2.6",
-    "weixin-api": "^0.1.7",
-    "weixin-apis": "^1.9.0"
+  "name": "WechatPoc",
+  "version": "0.0.0",
+  "description": "WechatPoc",
+  "main": "server.js",
+  "author": {
+    "name": "zhijli",
+    "email": ""
   }
 }
