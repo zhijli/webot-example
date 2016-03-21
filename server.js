@@ -3,6 +3,11 @@
 var mp = require('wechat-mp')('CSHToolsTeam')
 var app = require('express')()
 
+
+app.get('/', function (req, res) {
+    res.send('GET request to homepage');
+});
+
 app.use('/', mp.start())
 app.post('/', function (req, res, next) {
     
