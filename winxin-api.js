@@ -7,7 +7,7 @@ var app = express();
 
 // 接入验证
 app.get('/', function (req, res) {
-
+    
     // 签名成功
     if (weixin.checkSignature(req)) {
         res.status(200).send(req.query.echostr);
@@ -23,9 +23,9 @@ weixin.token = 'CSHToolsTeam';
 weixin.textMsg(function (msg) {
     console.log("textMsg received");
     console.log(JSON.stringify(msg));
-
+    
     var resMsg = {};
-
+    
     switch (msg.content) {
         case "你好":
             // 返回文本消息
@@ -97,7 +97,7 @@ weixin.textMsg(function (msg) {
             break;
 
         case "图文":
-
+            
             var articles = [];
             articles[0] = {
                 title: "PHP依赖管理工具Composer入门",
@@ -105,21 +105,21 @@ weixin.textMsg(function (msg) {
                 picUrl: "http://weizhifeng.net/images/tech/composer.png",
                 url: "http://weizhifeng.net/manage-php-dependency-with-composer.html"
             };
-
+            
             articles[1] = {
                 title: "八月西湖",
                 description: "八月西湖",
                 picUrl: "http://weizhifeng.net/images/poem/bayuexihu.jpg",
                 url: "http://weizhifeng.net/bayuexihu.html"
             };
-
+            
             articles[2] = {
                 title: "「翻译」Redis协议",
                 description: "「翻译」Redis协议",
                 picUrl: "http://weizhifeng.net/images/tech/redis.png",
                 url: "http://weizhifeng.net/redis-protocol.html"
             };
-
+            
             // 返回图文消息
             resMsg = {
                 fromUserName: msg.toUserName,
@@ -129,7 +129,7 @@ weixin.textMsg(function (msg) {
                 funcFlag: 0
             }
     }
-
+    
     weixin.sendMsg(resMsg);
 });
 
@@ -159,7 +159,7 @@ weixin.eventMsg(function (msg) {
 
 // Start
 app.post('/', function (req, res) {
-
+    
     // loop
     weixin.loop(req, res);
 

@@ -5,6 +5,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>WechatPoc</Name>
     <RootNamespace>WechatPoc</RootNamespace>
+    <NameOfLastUsedPublishProfile>WeChatPoc - Web Deploy</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -19,7 +20,7 @@
     <OutputPath>.</OutputPath>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
-    <ProjectView>ShowAllFiles</ProjectView>
+    <ProjectView>ProjectFiles</ProjectView>
     <NodejsPort>1337</NodejsPort>
     <StartWebBrowser>true</StartWebBrowser>
   </PropertyGroup>
@@ -31,7 +32,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="example.js" />
-    <Compile Include="helloworld.js" />
     <Compile Include="lib\support.js" />
     <Compile Include="nodejs-wechat-press.js" />
     <Compile Include="nodejs-wechat.js" />
@@ -42,17 +42,11 @@
     <Compile Include="test\rule.js" />
     <Compile Include="webot.js" />
     <Compile Include="wechat-mp.js" />
+    <Compile Include="weixin-robot.js" />
     <Compile Include="winxin-api.js" />
     <Compile Include="winxin-apis.js" />
-    <Content Include=".env" />
-    <Content Include=".foreverignore" />
-    <Content Include=".gitignore" />
-    <Content Include=".travis.yml" />
-    <Content Include="IISNode.yml.bak" />
     <Content Include="info.txt" />
     <Content Include="logo.png" />
-    <Content Include="Makefile" />
-    <Content Include="manifest.yml" />
     <Content Include="Procfile" />
     <Content Include="push.cmd" />
     <Content Include="qrcode.jpg" />
@@ -66,6 +60,8 @@
     <Content Include="bin\node.cmd" />
     <Content Include="package.json" />
     <Content Include="README.md" />
+    <None Include="WeChatPoc - FTP.pubxml" />
+    <None Include="WeChatPoc - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
