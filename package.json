@@ -2,15 +2,22 @@
   "name": "WeChatDemo",
   "version": "1.0.0",
   "dependencies": {
-    "express": "4.x",
+    "cookie-session": "^2.0.0-alpha.1",
+    "debug": "^2.2.0",
+    "express": "^4.13.4",
     "express-middlewares-js": "^1.0.3",
     "express-xml-parser": "^1.0.0",
+    "jQuery": "^1.7.4",
+    "jquery": "^1.9.1",
+    "jsdom": "^8.2.0",
     "nodejs-wechat": "0.0.8",
     "url": "^0.11.0",
     "webot": "^0.1.10",
+    "wechat-api": "^1.27.1",
     "wechat-mp": "^0.2.6",
     "weixin-api": "^0.1.7",
     "weixin-apis": "^1.9.0",
-    "weixin-robot": "^0.5.9"
+    "weixin-robot": "^0.5.9",
+    "xmlhttprequest": "^1.8.0"
   }
 }

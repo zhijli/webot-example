@@ -33,7 +33,7 @@ weixin.textMsg(function (msg) {
                 fromUserName: msg.toUserName,
                 toUserName: msg.fromUserName,
                 msgType: "text",
-                content: "你好 有什么可以帮您？",
+                content: "您好 有什么可以帮您？",
                 funcFlag: 0
             };
             break;
