@@ -2,13 +2,25 @@
 
 var express = require('express');
 var webot = require('weixin-robot');
-var cookieSession = require('cookie-session');
+var cookieParser = require('cookie-parser')
+var session = require('express-session')
 var app = express();
 
 var WechatAPI = require('wechat-api');
 var api = new WechatAPI('wx1bde71691d38fc81', '97f46c1b33aeed3fccc9e3489c7270c3');
 var kid = 'ouDO9vp8ArTJywdlRcE9ZHvfbU9I';
-var qr;
+
+//QR 永久素材 media_id
+var qr = '6ElOdcrVjaxV-vWQHI8vsWv9TXCO-0vyjLlinvaNIi8';
+//上传临时素材
+//api.uploadMedia('qr.jpg', 'image', function (err, result) {
+//    qr = result.media_id;
+//});
+
+//上传永久素材
+//api.uploadMaterial('qr.jpg', 'image', function (err, result) {
+//    qr = result.media_id;
+//});
 
 //Skype = require('./scripts/SkypeBootstrap.js')
 //var jsdom = require('jsdom');
@@ -82,7 +94,7 @@ var qr;
 //        type: "get",
 //        callback: handleContacts
 //    });
-    
+
 //    batch.queueRequest({
 //        url: cacheData._embedded.me._links.self.href,
 //        type: "get",
@@ -90,14 +102,14 @@ var qr;
 //            selfName = data.results.name;
 //        }
 //    });
-    
+
 //    batch.processBatch();
 //});
 
 //function handleContacts(data) {
 //    if (data && data.results && data.results._embedded && data.results._embedded.contact && !ucwa.GeneralHelper.isEmpty(data.results._embedded.contact)) {
 //        var contacts = data.results._embedded.contact;
-        
+
 //        if ($.isArray(contacts)) {
 //            for (var contact in contacts) {
 //                handleContact(contacts[contact]);
@@ -105,7 +117,7 @@ var qr;
 //        } else {
 //            handleContact(contacts);
 //        }
-        
+
 //        batch.processBatch();
 //    } else {
 //        $("#outgoingContacts").parent().removeClass("controls");
@@ -135,7 +147,7 @@ var qr;
 //execfile('./scripts/Ucwa/Authentication.js', { window: window, jQuery: jQuery,GeneralHelper: window.GeneralHelper });
 
 
-//performRequest('/api/search/virtualagent', 'GET', 'update', function (data) {
+//performRequest('support.microsoft.com','/api/search/virtualagent', 'GET', 'update', function (data) {
 //    items = data.content.webResults.items;
 
 //    items.forEach(function (item) {
@@ -156,39 +168,10 @@ var qr;
 //    return next(null, items);
 //});
 
-api.uploadMedia('qr.jpg', 'image', function (err, result) {
-    qr = result.media_id;
-});
-
-//var https = require('https')
-//var options = {
-//    host: 'support.microsoft.com',
-//    port: 443,
-//    path: '/api/search/virtualagent?page=1&query=hi&withDialog=true',
-//    method: 'GET'
-//};
-
-//https.request(options, function (res) {
-//    console.log('STATUS: ' + res.statusCode);
-//    console.log('HEADERS: ' + JSON.stringify(res.headers));
-//    res.setEncoding('utf8');
-//    res.on('data', function (chunk) {
-//        console.log('BODY: ' + chunk);
-//    });
-//}).end();
-
 var querystring = require('querystring');
 var https = require('https');
 
-
-var host = 'support.microsoft.com';
-var username = 'JonBob';
-var password = '*****';
-var apiKey = '*****';
-var sessionId = null;
-var deckId = '68DC5A20-EE4F-11E2-A00C-0858C0D5C2ED';
-
-function performRequest(endpoint, method, data, success) {
+function performRequest(host, endpoint, method, data, success) {
     var dataString = JSON.stringify(data);
     var headers = {};
     
@@ -228,14 +211,11 @@ function performRequest(endpoint, method, data, success) {
     req.end();
 }
 
-
-
-
 // 指定回复消息
 webot.set('sayHi', {
     pattern: /^hi\b|你好|您好/i,
     handler: function (info) {
-        return '您好 有什么可以帮您？你可以回复：查询账户余额，取消云订阅。';
+        return '您好 有什么可以帮您？您可以尝试回复：查询账户余额，取消云订阅。';
     }
 });
 
@@ -304,71 +284,60 @@ webot.set('get qr', {
 //      查
 //      查号
 
-//webot.set('query info1', {
-//    pattern: /abc/i,
-//    handler: function (info) {
-//        return 'abc';
-//    }
-//});
-
-webot.set('query info', {
-    pattern: /查(询)?((账[户号])?余额)|(账[户号])/i,
+webot.set('query account info', {
+    pattern: /查(询)?((账[户号])?余额)|(账[户号])|query account/i,
     handler: function (info) {
         return '没问题，请提供您的LiveId或OrgId';
-    }
-});
-
-//webot.set('query info', {
-//    pattern: /查(询)?((账[户号])?余额)|(账[户号])/i,
-//    handler: function (info) {
-//        return '没问题，请提供您的LiveId或OrgId';
-//    },
-//    replies: {
-//        pattern: /([a-zA-Z0-9_]+)@([a-zA-Z0-9_]+.[a-zA-Z0-9_]+)/i,
-//        handler: function (info) {
-//            return '你的账号是：' + info.param[1] + '你的余额是：100 RMB';
-//        },
-//        pattern: /.*/i,
-//        handler: function (info) {
-//            return '输入的格式有误.';
-//        }
-//    }
-//});
-
-webot.set('input Id', {
-    pattern: /([a-zA-Z0-9_]+)@([a-zA-Z0-9_]+.[a-zA-Z0-9_]+)/i,
-    handler: function (info) {
-        return '你的账号是：' + info.param[1] + '\n你的余额是：100 RMB';
+    },
+    replies: {
+        '/([a-zA-Z0-9_]+)@([a-zA-Z0-9_]+.[a-zA-Z0-9_]+)/i': function (info) {
+            return '您的账号是：' + info.param[0] + '\n 您的余额是：100 RMB';
+        },        
+        '/.*/': function (info) {
+            // 在 replies 的 handler 里可以获得等待回复的重试次数参数
+            if (info.rewaitCount < 2) {
+                info.rewait();
+                return '您提供的账号不存在,或者格式不对。请提供正确的LiveId或者OrgId(e.g. TomSlick@MyCompany.com).';
+            }
+            return '您提供的账号不存在,或者格式不对。如需进一步帮助，请联系人工客服。';
+        },
     }
 });
 
 webot.set('cancel sub', {
-    pattern: /取消云订阅/i,
+    pattern: /取消云订阅|cancel sub/i,
     handler: function (info) {
-        return '可以，请问订阅号是？(e.g: 123-123-123)';
-    }
-});
-
-webot.set('input sub id', {
-    pattern: /(\d{3}-){2}\d{3}/i,
-    handler: function (info) {
-        return '好的，已经成功取消。退款以打入您的关联账户，请查收';
+        return '可以，请提供您的订阅号？(e.g. 123-123-123)';
+    },
+    replies: {
+        // \\d - need double slash in string 
+        '/(\\d{3}-){2}\\d{3}/i': function (info) {
+            return '好的，已经成功取消。退款已打入您的关联账户，请查收';
+        },        
+        '/.*/': function (info) {
+            // 在 replies 的 handler 里可以获得等待回复的重试次数参数
+            if (info.rewaitCount < 2) {
+                info.rewait();
+                return '您提供的订阅号格式不对。请提供正确的订阅号. (e.g. 123-123-123).';
+            }
+            return '您提供的订阅号格式不对，如需进一步帮助，请联系人工客服。';
+        },
     }
 });
 
 webot.set('goodbye', {
-    pattern: /thank you|谢谢/i,
+    pattern: /thank you|good bye|谢谢|再见/i,
     handler: function (info) {
         return '欢迎您再次使用我们的服务';
     }
 });
 
-webot.set('your name', {
-    pattern: /^(?:my name is|i am|我(?:的名字)?(?:是|叫)?)\s*(.*)$/i,
-    handler: function (info) {
-        return 'hi，' + info.param[1];
-    },
-});
+//webot.set('your name', {
+//    pattern: /^(?:my name is|i am|我(?:的名字)?(?:是|叫)?)\s*(.*)$/i,
+//    handler: function (info) {
+//        return 'hi，' + info.param[1];
+//    },
+//});
 
 webot.set('subscribe', {
     pattern: function (info) {
@@ -390,7 +359,7 @@ webot.set('support.microsoft.com', {
         };
         
         response = {};
-        performRequest('/api/search/virtualagent', 'GET', data, function (data) {
+        performRequest('support.microsoft.com','/api/search/virtualagent', 'GET', data, function (data) {
             items = data.content.webResults.items;
             
             items.forEach(function (item) {
@@ -411,20 +380,6 @@ webot.set('support.microsoft.com', {
     }
 });
 
-// 你可以获取已定义的 rule
-//
-// webot.get('subscribe') ->
-//
-// {
-//   name: 'subscribe',
-//   pattern: function(info) {
-//     return info.is('event') && info.param.event === 'subscribe';
-//   },
-//   handler: function(info) {
-//     return '欢迎订阅微信机器人';
-//   }
-// }
-//
 
 webot.watch(app, { token: 'CSHToolsTeam', path: '/' });
 
@@ -435,12 +390,14 @@ webot.watch(app, { token: 'CSHToolsTeam', path: '/' });
 //    next();
 //});
 
-//session support
-// store session state in browser cookie
-
-//app.use(cookieSession({
-//    keys: ['secret1', 'secret2']
-//}));
+// 如果需要 session 支持，sessionStore 必须放在 watch 之后
+app.use(cookieParser());
+// 为了使用 waitRule 功能，需要增加 session 支持
+app.use(session({
+    secret: 'abced111',
+    resave: true,
+    saveUninitialized: true
+}));
 
 // 启动 Web 服务
 // 微信后台只允许 80 端口
